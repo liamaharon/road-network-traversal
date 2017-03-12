@@ -25,7 +25,7 @@ list.o: list.h
 clean:
 	rm -f $(OBJ) $(EXE)
 
-STUDENTNUM = <STUDENT NUMBER>
+STUDENTNUM = 835596
 SUBMISSION = Makefile report.pdf main.c graph.h graph.c traverse.h traverse.c \
 			 list.h list.c stack.h stack.c queue.h queue.c
 #									add any new files here ^
