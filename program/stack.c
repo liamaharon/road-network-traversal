@@ -33,10 +33,10 @@ void
 push_stack(Stack* stack, int n) {
   // check stack is valid
   assert(stack);
-  int front = (stack->front)++;
-  assert(front <= stack->maxn);
+  (stack->front)++;
+  assert(stack->front <= stack->maxn);
 
-  stack->arr[front] = n;
+  stack->arr[stack->front] = n;
 }
 
 // return int at the front of the stack
