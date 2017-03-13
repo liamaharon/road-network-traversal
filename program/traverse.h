@@ -9,6 +9,7 @@
 #define TRAVERSE_H
 
 #include "graph.h"
+#include "stack.h"
 
 // see Assignment Part 1: Depth-First Traversal
 void print_dfs(Graph* graph, int source_id);
