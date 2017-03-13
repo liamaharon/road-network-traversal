@@ -21,6 +21,6 @@ Stack* new_stack(int maxn);
 
 void push_stack(Stack* stack, int n);
 
-Vertex* peek_stack(Stack* stack);
+int peek_stack(Stack* stack);
 
-Vertex* pop_stack(Stack* stack);
+int pop_stack(Stack* stack);
