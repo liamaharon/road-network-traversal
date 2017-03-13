@@ -5,8 +5,6 @@
  * by Liam Aharon <laharon@student.unimelb.edu.au>
  */
 
-#include "graph.h"
-
 typedef struct stack Stack;
 
 struct stack {
