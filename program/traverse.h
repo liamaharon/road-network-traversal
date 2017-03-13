@@ -10,6 +10,7 @@
 
 #include "graph.h"
 #include "stack.h"
+#include "queue.h"
 
 // see Assignment Part 1: Depth-First Traversal
 void print_dfs(Graph* graph, int source_id);
