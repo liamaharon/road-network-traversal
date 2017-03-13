@@ -43,10 +43,8 @@ push_stack(Stack* stack, int n) {
 int
 peek_stack(Stack* stack) {
   assert(stack);
-  if (stack->front == -1) {
-    printf("WARNING: Peeked stack is empty.\n");
-    return NULL;
-  }
+  assert(stack->front != -1);
+
   return (stack->arr[stack->front]);
 }
 
