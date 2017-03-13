@@ -28,7 +28,6 @@ void print_dfs(Graph* graph, int source_id) {
   // keep looking through vertices until stack is empty
   while (stack->front != -1) {
     // check every edge leading from the vertice ontop of the stack
-
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
       // if we find an unvisited vertice push to top of the stack and restart
@@ -43,9 +42,9 @@ void print_dfs(Graph* graph, int source_id) {
       // if seen all vertices remove vertice from stack
       else {
         edge = edge->next_edge;
-        if (edge == NULL) pop_stack(stack);
       }
     }
+    if (edge == NULL) pop_stack(stack);
   }
   free_stack(stack);
   free(visited);
