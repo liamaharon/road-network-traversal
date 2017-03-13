@@ -34,7 +34,7 @@ push_stack(Stack* stack, int n) {
   // check stack is valid
   assert(stack);
   (stack->front)++;
-  assert(stack->front <= stack->maxn);
+  assert(stack->front < stack->maxn);
 
   stack->arr[stack->front] = n;
 }
