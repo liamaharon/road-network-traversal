@@ -60,3 +60,8 @@ pop_stack(Stack* stack) {
   (stack->front)--;
   return n;
 }
+
+void free_stack(Stack* stack) {
+  free(stack->arr);
+  free(stack);
+}
