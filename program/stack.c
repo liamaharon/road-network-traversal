@@ -63,3 +63,7 @@ pop_stack(Stack* stack) {
   (stack->front)--;
   return vertex;
 }
+
+void free_stack(Stack* stack) {
+  free(stack);
+}

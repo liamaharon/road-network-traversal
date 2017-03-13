@@ -24,3 +24,5 @@ void push_stack(Stack* stack, Vertex* vertex);
 Vertex* peek_stack(Stack* stack);
 
 Vertex* pop_stack(Stack* stack);
+
+void free_stack(Stack* stack);
