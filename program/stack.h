@@ -10,7 +10,7 @@
 typedef struct stack Stack;
 
 struct stack {
-  int arr[];
+  int* arr;
   int front;
   int maxn;
 };
