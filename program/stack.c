@@ -21,7 +21,7 @@ new_stack(int maxn) {
   stack->front = -1;
   stack->maxn = maxn;
 
-  // allocate memory to store vertexs pointers in the stack
+  // allocate memory to store ints in the stack
   stack->arr = malloc(sizeof(int)*maxn);
   assert(stack->arr);
 
