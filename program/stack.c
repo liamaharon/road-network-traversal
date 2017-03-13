@@ -12,7 +12,7 @@
 
  /* function definitions */
 
-// create a new, empty stack of vertex pointers
+// create a new, empty stack of ints
 Stack*
 new_stack(int maxn) {
   //allocate memory to store the stack
@@ -22,48 +22,43 @@ new_stack(int maxn) {
   stack->maxn = maxn;
 
   // allocate memory to store vertexs pointers in the stack
-  stack->vertexarr = malloc(sizeof(Vertex*)*maxn);
-  assert(stack->vertexarr);
+  stack->arr = malloc(sizeof(int)*maxn);
+  assert(stack->arr);
 
   return stack;
 }
 
-// push a vertex to the top of a stack
+// push a int to the top of a stack
 void
-push_stack(Stack* stack, Vertex* vertex) {
-  // check stack & vertex exists and stack is not full
-  assert(stack && vertex);
+push_stack(Stack* stack, int n) {
+  // check stack is valid
+  assert(stack);
   int front = (stack->front)++;
   assert(front <= stack->maxn);
 
-  stack->vertexarr[front] = vertex;
+  stack->arr[front] = n;
 }
 
-// return a pointer to the vertex at the top of the stack
-Vertex*
+// return int at the front of the stack
+int
 peek_stack(Stack* stack) {
   assert(stack);
   if (stack->front == -1) {
     printf("WARNING: Peeked stack is empty.\n");
     return NULL;
   }
-  return (stack->vertexarr[stack->front]);
+  return (stack->arr[stack->front]);
 }
 
-// pop vertex off the stack
-Vertex*
+// pop front off the stack
+int
 pop_stack(Stack* stack) {
-  // make sure there is at least 1 vertex in the stack
+  // make sure there is at least 1 int in the stack
   assert(stack);
   assert(stack->front >= 0);
   int front = stack->front;
-  // take pointer of vertex at front of the stack, deincrement front
-  // and return
-  Vertex* vertex = stack->vertexarr[front];
+  // return front of the stack and deincrement front
+  int n = stack->arr[front];
   (stack->front)--;
-  return vertex;
-}
-
-void free_stack(Stack* stack) {
-  free(stack);
+  return n;
 }

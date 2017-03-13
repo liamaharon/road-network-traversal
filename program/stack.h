@@ -19,7 +19,7 @@ struct stack {
 
 Stack* new_stack(int maxn);
 
-void push_stack(Stack* stack, Vertex* vertex);
+void push_stack(Stack* stack, int n);
 
 Vertex* peek_stack(Stack* stack);
 
