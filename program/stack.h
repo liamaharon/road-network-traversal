@@ -10,7 +10,7 @@
 typedef struct stack Stack;
 
 struct stack {
-  Vertex** vertexarr;
+  int arr[];
   int front;
   int maxn;
 };
@@ -24,5 +24,3 @@ void push_stack(Stack* stack, int n);
 Vertex* peek_stack(Stack* stack);
 
 Vertex* pop_stack(Stack* stack);
-
-void free_stack(Stack* stack);
