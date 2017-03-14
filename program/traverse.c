@@ -31,11 +31,11 @@ void print_dfs(Graph* graph, int source_id) {
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
       // if unvisited vertice push to top of the stack, restart process
-      int destination_id = edge->v;
-      if (visited[destination_id] == 0) {
-        printf("%s\n", graph->vertices[destination_id]->label);
-        visited[destination_id] = 1;
-        push_stack(stack, destination_id);
+      int edge_destination = edge->v;
+      if (visited[edge_destination] == 0) {
+        printf("%s\n", graph->vertices[edge_destination]->label);
+        visited[edge_destination] = 1;
+        push_stack(stack, edge_destination);
         break;
       }
       // if vertice leading from edge already seen check the next edge.
@@ -72,11 +72,11 @@ void print_bfs(Graph* graph, int source_id) {
     // enqueue and process destinations as soon as we find them, if they are
     // yet to be visited
     while (edge != NULL) {
-      int destination_id = edge->v;
-      if (visited[destination_id] == 0) {
-        enqueue_queue(queue, destination_id);
-        visited[destination_id] = 1;
-        printf("%s\n", graph->vertices[destination_id]->label);
+      int edge_destination = edge->v;
+      if (visited[edge_destination] == 0) {
+        enqueue_queue(queue, edge_destination);
+        visited[edge_destination] = 1;
+        printf("%s\n", graph->vertices[edge_destination]->label);
       }
       edge = edge->next_edge;
     }
