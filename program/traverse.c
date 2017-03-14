@@ -25,7 +25,7 @@ void print_dfs(Graph* graph, int source_id) {
   visited[source_id] = 1;
   printf("%s\n", graph->vertices[source_id]->label);
 
-  // keep looking through vertices until stack is empty
+  // keep looking through stack until is empty
   while (stack->front != -1) {
     // check every edge leading from the vertice ontop of the stack
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
@@ -44,6 +44,8 @@ void print_dfs(Graph* graph, int source_id) {
         edge = edge->next_edge;
       }
     }
+    // once edges of vertice on top of stack are all visited, pop it from
+    // the stack
     if (edge == NULL) pop_stack(stack);
   }
   free_stack(stack);
