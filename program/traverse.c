@@ -98,9 +98,11 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
   Stack* stack = new_stack(MAX_VERTICES);
 
   // push origin vertice id to top of stack, mark visited and print
+  // keep track of total weight traveled
+  int dist=0;
   push_stack(stack, source_id);
   visited[source_id] = 1;
-  printf("%s\n", graph->vertices[source_id]->label);
+  printf("%s (%dkm)\n", graph->vertices[source_id]->label, dist);
 
   // keep looking through stack until is empty
   while (!isempty_stack(stack)) {
@@ -112,7 +114,8 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
       if (visited[edge_destination] == 0) {
         visited[edge_destination] = 1;
         push_stack(stack, edge_destination);
-        printf("%s\n", graph->vertices[edge_destination]->label);
+        dist += edge->weight;
+        printf("%s (%dkm)\n", graph->vertices[edge_destination]->label, dist);
         // destination found, free and return
         if (edge_destination == destination_id) {
           free(visited);
