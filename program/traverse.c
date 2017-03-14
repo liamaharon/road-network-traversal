@@ -27,19 +27,18 @@ void print_dfs(Graph* graph, int source_id) {
 
   // keep looking through stack until is empty
   while (stack->front != -1) {
-    // check every edge leading from the vertice ontop of the stack
+    // check every edge leading from vertice on top of the stack
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
-      // if we find an unvisited vertice push to top of the stack and restart
-      // process
-      if (visited[edge->v] == 0) {
-        printf("%s\n", graph->vertices[edge->v]->label);
-        visited[edge->v] = 1;
-        push_stack(stack, edge->v);
+      // if unvisited vertice push to top of the stack, restart process
+      int destination_id = edge->v;
+      if (visited[destination_id] == 0) {
+        printf("%s\n", graph->vertices[destination_id]->label);
+        visited[destination_id] = 1;
+        push_stack(stack, destination_id);
         break;
       }
       // if vertice leading from edge already seen check the next edge.
-      // if seen all vertices remove vertice from stack
       else {
         edge = edge->next_edge;
       }
