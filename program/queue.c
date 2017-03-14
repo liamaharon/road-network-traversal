@@ -55,3 +55,9 @@ peek_queue(Queue* queue) {
   assert (queue->front != -1);
   return queue->arr[queue->front];
 }
+
+void
+free_queue(Queue* queue) {
+  free(queue->arr);
+  free(queue);
+}

@@ -23,3 +23,5 @@ void enqueue_queue(Queue* queue, int num);
 int dequeue_queue(Queue* queue);
 
 int peek_queue(Queue* queue);
+
+void free_queue(Queue* queue);
