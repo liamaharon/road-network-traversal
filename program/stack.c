@@ -1,5 +1,5 @@
 /* * * * * * *
- * Module for creating and manipulating stacks
+ * Module for creating and manipulating stacks using an array
  *
  * created for COMP20007 Design of Algorithms - Assignment 1, 2017
  * by Liam Aharon <laharon@student.unimelb.edu.au>
