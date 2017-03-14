@@ -14,8 +14,8 @@
  new_queue(int maxn) {
    Queue* queue = malloc(sizeof(*queue));
    assert(queue);
-   queue->maxn = 4;
-   queue->size = maxn;
+   queue->maxn = maxn;
+   queue->size = 0;
    queue->front = -1;
    queue->rear = -1;
    queue->arr = malloc(sizeof(int)*maxn);
