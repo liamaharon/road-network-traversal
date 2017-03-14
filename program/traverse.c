@@ -20,7 +20,7 @@ void print_dfs(Graph* graph, int source_id) {
   // stack to contain vertices as they're checked
   Stack* stack = new_stack(MAX_VERTICES);
 
-  // push origin node_id to top of stack, mark visited and print
+  // push origin vertice id to top of stack, mark visited and print
   push_stack(stack, source_id);
   visited[source_id] = 1;
   printf("%s\n", graph->vertices[source_id]->label);
@@ -53,7 +53,37 @@ void print_dfs(Graph* graph, int source_id) {
 }
 
 void print_bfs(Graph* graph, int source_id) {
-	printf("not yet implemented: put code for part 2 here\n");
+  const int MAX_VERTICES = graph->maxn;
+
+  // array containing 1 or 0 depending whether or not a vertex has been visited
+  int* visited = calloc(sizeof(int), MAX_VERTICES);
+
+  // queue to store ids of vertices to be processed
+  Queue* queue = new_queue(MAX_VERTICES);
+
+  // enqueue source vertice to queue, mark as visited and print it
+  enqueue_queue(queue, source_id);
+  visited[source_id] = 1;
+  printf("%s\n", graph->vertices[source_id]->label);
+
+  // keep looking through queue until is empty
+  while (isempty_queue(queue) != 1) {
+    // set first edge of vertice in front of queue
+    Edge* edge = graph->vertices[peek_queue(queue)]->first_edge;
+    // enqueue and process destinations as soon as we find them, if they are
+    // yet to be visited
+    while (edge != NULL) {
+      int destination_id = edge->v;
+      if (visited[destination_id] == 0) {
+        enqueue_queue(queue, destination_id);
+        visited[destination_id] = 1;
+        printf("%s\n", graph->vertices[destination_id]->label);
+      }
+      edge = edge->next_edge;
+    }
+    // dequeue vertice when we have queued all unseen vertices from its edges
+    dequeue_queue(queue);
+  }
 }
 
 void detailed_path(Graph* graph, int source_id, int destination_id) {
