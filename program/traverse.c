@@ -87,8 +87,52 @@ void print_bfs(Graph* graph, int source_id) {
   free(visited);
 }
 
+// find path between two vertices using depth first search
 void detailed_path(Graph* graph, int source_id, int destination_id) {
-	printf("not yet implemented: put code for part 3 here\n");
+  const int MAX_VERTICES = graph->maxn;
+
+  // array containing 1 or 0 depending whether or not a vertex has been visited
+  int* visited = calloc(sizeof(int), MAX_VERTICES);
+
+  // stack to contain vertices as they're checked
+  Stack* stack = new_stack(MAX_VERTICES);
+
+  // push origin vertice id to top of stack, mark visited and print
+  push_stack(stack, source_id);
+  visited[source_id] = 1;
+  printf("%s\n", graph->vertices[source_id]->label);
+
+  // keep looking through stack until is empty
+  while (stack->front != -1) {
+    // check every edge leading from vertice on top of the stack
+    Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
+    while (edge != NULL) {
+      // if unvisited vertice push to top of the stack, restart process
+      int edge_destination = edge->v;
+      if (visited[edge_destination] == 0) {
+        visited[edge_destination] = 1;
+        push_stack(stack, edge_destination);
+        printf("%s\n", graph->vertices[edge_destination]->label);
+        // destination found, free and return
+        if (edge_destination == destination_id) {
+          free(visited);
+          free_stack(stack);
+          return;
+        }
+        break;
+      }
+      // if vertice leading from edge already seen check the next edge.
+      else {
+        edge = edge->next_edge;
+      }
+    }
+    // once edges of vertice on top of stack are all visited, pop it from
+    // the stack
+    if (edge == NULL) pop_stack(stack);
+  }
+  free_stack(stack);
+  free(visited);
+
 }
 
 void all_paths(Graph* graph, int source_id, int destination_id) {
