@@ -84,6 +84,8 @@ void print_bfs(Graph* graph, int source_id) {
     // dequeue vertice when we have queued all unseen vertices from its edges
     dequeue_queue(queue);
   }
+  free_queue(queue);
+  free(visited);
 }
 
 void detailed_path(Graph* graph, int source_id, int destination_id) {
