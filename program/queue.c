@@ -15,7 +15,6 @@
    Queue* queue = malloc(sizeof(*queue));
    assert(queue);
    queue->maxn = maxn;
-   queue->size = 0;
    queue->front = -1;
    queue->rear = -1;
    queue->arr = malloc(sizeof(int)*maxn);
@@ -54,6 +53,12 @@ int
 peek_queue(Queue* queue) {
   assert (queue->front != -1);
   return queue->arr[queue->front];
+}
+
+int
+isempty_queue(Queue* queue) {
+  if (queue->front == -1) return 1;
+  else return 0;
 }
 
 void

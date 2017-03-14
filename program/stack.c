@@ -61,7 +61,15 @@ pop_stack(Stack* stack) {
   return n;
 }
 
-void free_stack(Stack* stack) {
+int
+isempty_stack(Stack* stack) {
+  if (stack->front == -1) return 1;
+  else return 0;
+}
+
+
+void
+free_stack(Stack* stack) {
   free(stack->arr);
   free(stack);
 }

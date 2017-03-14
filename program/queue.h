@@ -24,4 +24,6 @@ int dequeue_queue(Queue* queue);
 
 int peek_queue(Queue* queue);
 
+int isempty_queue(Queue* queue);
+
 void free_queue(Queue* queue);

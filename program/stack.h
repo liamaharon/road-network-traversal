@@ -23,4 +23,6 @@ int peek_stack(Stack* stack);
 
 int pop_stack(Stack* stack);
 
+int isempty_stack(Stack* stack);
+
 void free_stack(Stack* stack);
