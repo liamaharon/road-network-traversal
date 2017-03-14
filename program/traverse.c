@@ -26,7 +26,7 @@ void print_dfs(Graph* graph, int source_id) {
   printf("%s\n", graph->vertices[source_id]->label);
 
   // keep looking through stack until is empty
-  while (stack->front != -1) {
+  while (!isempty_stack(stack)) {
     // check every edge leading from vertice on top of the stack
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
@@ -66,7 +66,7 @@ void print_bfs(Graph* graph, int source_id) {
   printf("%s\n", graph->vertices[source_id]->label);
 
   // keep looking through queue until is empty
-  while (isempty_queue(queue) != 1) {
+  while (!isempty_queue(queue)) {
     // set first edge of vertice in front of queue
     Edge* edge = graph->vertices[peek_queue(queue)]->first_edge;
     // enqueue and process destinations as soon as we find them, if they are
@@ -103,7 +103,7 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
   printf("%s\n", graph->vertices[source_id]->label);
 
   // keep looking through stack until is empty
-  while (stack->front != -1) {
+  while (!isempty_stack(stack)) {
     // check every edge leading from vertice on top of the stack
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
@@ -132,7 +132,6 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
   }
   free_stack(stack);
   free(visited);
-
 }
 
 void all_paths(Graph* graph, int source_id, int destination_id) {
