@@ -9,13 +9,19 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <limits.h>
 #include "traverse.h"
 
 /* function prototypes */
 
 void print_path(Graph* graph, int* path, int pathn, int destination_id);
 
-void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path, int pathn, int edge_destination);
+void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path,
+int pathn, int edge_destination);
+
+void rec_shortest_path(Graph* graph, int destination_id, int* visited,
+int* path, int pathn, int edge_destination, int cur_dist, int* short_dist,
+int* short_path, int* short_pathn);
 
 /* function definitions */
 
@@ -160,6 +166,7 @@ void all_paths(Graph* graph, int source_id, int destination_id) {
     int edge_destination = edge->v;
     if (edge_destination == destination_id) {
       print_path(graph, path, pathn, destination_id);
+      printf("\n");
     } else if (!visited[edge_destination]) {
       rec_all_paths(graph, destination_id, visited, path, pathn, edge_destination);
     }
@@ -169,7 +176,9 @@ void all_paths(Graph* graph, int source_id, int destination_id) {
   free(path);
 }
 
-void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path, int pathn, int edge_destination) {
+// recursive call for all_paths - looks through all
+void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path,
+int pathn, int edge_destination) {
   const int MAX_VERTICES = graph->maxn;
   // make new copies of visited and path
   int* new_visited = calloc(sizeof(int), MAX_VERTICES);
@@ -187,6 +196,7 @@ void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path, in
     int edge_destination = edge->v;
     if (edge_destination == destination_id) {
       print_path(graph, new_path, pathn, destination_id);
+      printf("\n");
     } else if (!visited[edge_destination]) {
       rec_all_paths(graph, destination_id, new_visited, new_path, pathn, edge_destination);
     }
@@ -200,9 +210,73 @@ void print_path(Graph* graph, int* path, int pathn, int destination_id) {
   for (int i=0; i<pathn; i++) {
     printf("%s, ", graph->vertices[path[i]]->label);
   }
-  printf("%s\n", graph->vertices[destination_id]->label);
+  printf("%s", graph->vertices[destination_id]->label);
 }
 
 void shortest_path(Graph* graph, int source_id, int destination_id) {
-	printf("not yet implemented: put code for part 5 here\n");
+  const int MAX_VERTICES = graph->maxn;
+
+  int* short_path = calloc(sizeof(int), MAX_VERTICES);
+  int short_pathn = 0;
+  int short_dist = INT_MAX;
+	int* visited = calloc(sizeof(int), MAX_VERTICES);
+  int* path = calloc(sizeof(int), MAX_VERTICES);
+
+  path[0] = source_id;
+  int pathn = 1;
+  visited[source_id] = 1;
+  Edge* edge = graph->vertices[source_id]->first_edge;
+  while (edge != NULL) {
+    int cur_dist = edge->weight;
+    int edge_destination = edge->v;
+    if (edge_destination == destination_id && cur_dist < short_dist) {
+      short_pathn = pathn;
+      short_dist = cur_dist;
+      memcpy(short_path, path, sizeof(int)*MAX_VERTICES);
+    } else if (!visited[edge_destination]) {
+      rec_shortest_path(graph, destination_id, visited, path, pathn,
+      edge_destination, cur_dist, &short_dist, short_path, &short_pathn);
+    }
+    edge = edge->next_edge;
+  }
+  print_path(graph, short_path, short_pathn, destination_id);
+  printf(" (%dkm)\n", short_dist);
+  free(visited);
+  free(path);
+  free(short_path);
+}
+
+void
+rec_shortest_path(Graph* graph, int destination_id, int* visited, int* path,
+int pathn, int edge_destination, int cur_dist, int* short_dist,
+int* short_path, int* short_pathn) {
+
+  const int MAX_VERTICES = graph->maxn;
+  // make new copies of visited and path
+  int* new_visited = calloc(sizeof(int), MAX_VERTICES);
+  assert(new_visited);
+  memcpy(new_visited, visited, sizeof(int)*MAX_VERTICES);
+  int* new_path = calloc(sizeof(int), MAX_VERTICES);
+  assert(new_path);
+  memcpy(new_path, path, sizeof(int)*MAX_VERTICES);
+  new_visited[edge_destination] = 1;
+  new_path[pathn] = edge_destination;
+  pathn++;
+
+  Edge* edge = graph->vertices[edge_destination]->first_edge;
+  while (edge != NULL) {
+    int new_dist = cur_dist + edge->weight;
+    int edge_destination = edge->v;
+    if (edge_destination == destination_id && new_dist < *short_dist) {
+      *short_pathn = pathn;
+      *short_dist = new_dist;
+      memcpy(short_path, new_path, sizeof(int)*MAX_VERTICES);
+    } else if (!visited[edge_destination]) {
+      rec_shortest_path(graph, destination_id, new_visited, new_path, pathn,
+      edge_destination, new_dist, short_dist, short_path, short_pathn);
+    }
+    edge = edge->next_edge;
+  }
+  free(new_visited);
+  free(new_path);
 }
