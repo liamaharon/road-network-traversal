@@ -228,7 +228,8 @@ int pathn, int root_id) {
 
 // prints the path from source to destinaton specified in the path array
 void print_path(Graph* graph, int* path, int pathn, int destination_id) {
-  for (int i=0; i<pathn; i++) {
+  int i;
+  for (i=0; i<pathn; i++) {
     printf("%s, ", graph->vertices[path[i]]->label);
   }
   printf("%s", graph->vertices[destination_id]->label);
