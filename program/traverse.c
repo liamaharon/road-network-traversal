@@ -16,6 +16,8 @@
 
 void print_path(Graph* graph, int* path, int pathn, int destination_id);
 
+void print_detailed_path(Graph* graph, Stack* vertex_stack, Stack* dist_stack);
+
 void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path,
   int pathn, int root_id);
 
@@ -26,7 +28,8 @@ void rec_shortest_path(Graph* graph, int destination_id, int* visited,
 /* function definitions */
 
 // using DFS print every vertex in the graph
-void print_dfs(Graph* graph, int source_id) {
+void
+print_dfs(Graph* graph, int source_id) {
   const int MAX_VERTICES = graph->maxn;
 
   // array keeping track of which vertices have been visited
@@ -67,7 +70,8 @@ void print_dfs(Graph* graph, int source_id) {
 }
 
 // using BFS print every vertex in the graph
-void print_bfs(Graph* graph, int source_id) {
+void
+print_bfs(Graph* graph, int source_id) {
   const int MAX_VERTICES = graph->maxn;
 
   // array keeping track of which vertices have been visited
@@ -104,39 +108,65 @@ void print_bfs(Graph* graph, int source_id) {
   free(visited);
 }
 
+// prints a detailed path from vertex at bottom of stack to top of stack
+void
+print_detailed_path(Graph* graph, Stack* vertex_stack, Stack* dist_stack) {
+  const int MAX_VERTICES = graph->maxn;
+  // reverse stacks by pushing their values into a new stack
+  Stack* rev_vertex_stack = new_stack(MAX_VERTICES);
+  Stack* rev_dist_stack = new_stack(MAX_VERTICES);
+  while (!isempty_stack(vertex_stack)) {
+    push_stack(rev_vertex_stack, pop_stack(vertex_stack));
+    push_stack(rev_dist_stack, pop_stack(dist_stack));
+  }
+  // print the path from origin to destinaton
+  int vertex_id, dist=0;
+  while (!isempty_stack(rev_vertex_stack)) {
+    vertex_id = pop_stack(rev_vertex_stack);
+    dist += pop_stack(rev_dist_stack);
+    printf("%s (%dkm)\n", graph->vertices[vertex_id]->label, dist);
+  }
+  // free these tmp reversed stacks
+  free_stack(rev_vertex_stack);
+  free_stack(rev_dist_stack);
+}
+
 // find a path between two vertices using DFS
-void detailed_path(Graph* graph, int source_id, int destination_id) {
+void
+detailed_path(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
 
   // array keeping track of which vertices have been visited, val to keep track
   // of dist traveled
   int* visited = calloc(sizeof(int), MAX_VERTICES);
-  int dist = 0;
 
-  // stack to store ids of vertices to be processed
-  Stack* stack = new_stack(MAX_VERTICES);
+  // stacks to store ids of vertices to be processed and distances between them
+  Stack* vertex_stack = new_stack(MAX_VERTICES);
+  Stack* dist_stack = new_stack(MAX_VERTICES);
 
   // print origin vertex and process it in order to start a DFS from it
-  push_stack(stack, source_id);
+  push_stack(vertex_stack, source_id);
+  // push 0 as distance for origin vertex as we're already there
+  push_stack(dist_stack, 0);
   visited[source_id] = 1;
-  printf("%s (%dkm)\n", graph->vertices[source_id]->label, dist);
 
-  // keep looking through stack until is empty
-  while (!isempty_stack(stack)) {
-    // check every edge leading from vertex on top of the stack
-    Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
+  // keep looking through vertex_stack until is empty
+  while (!isempty_stack(vertex_stack)) {
+    // check every edge leading from vertex on top of the vertex_stack
+    Edge* edge = graph->vertices[peek_stack(vertex_stack)]->first_edge;
     while (edge != NULL) {
       int edge_destination = edge->v;
-      // unvisited vertex, push to top of the stack, begin searching its edges
+      // unvisited vertex, push to top of the vertex_stack, begin searching its edges
       if (visited[edge_destination] == 0) {
         visited[edge_destination] = 1;
-        push_stack(stack, edge_destination);
-        dist += edge->weight;
-        printf("%s (%dkm)\n", graph->vertices[edge_destination]->label, dist);
+        push_stack(vertex_stack, edge_destination);
+        push_stack(dist_stack, edge->weight);
         // destination found, free and return
         if (edge_destination == destination_id) {
+          print_detailed_path(graph, vertex_stack, dist_stack);
+          free_stack(vertex_stack);
+          free_stack(dist_stack);
           free(visited);
-          free_stack(stack);
           return;
         }
         break;
@@ -146,17 +176,21 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
         edge = edge->next_edge;
       }
     }
-    // vertex on top of stack has had all of its edges visited, pop off the
-    // stack
-    if (edge == NULL) pop_stack(stack);
+    // vertex on top of stack has had all of its edges visited, with no path
+    // to destination. pop it and distance to it
+    if (edge == NULL) {
+      pop_stack(vertex_stack);
+      pop_stack(dist_stack);
+    }
   }
   // free memory in the case destinaton is inaccessible from source
-  free_stack(stack);
+  free_stack(vertex_stack);
   free(visited);
 }
 
 // prints every possible path from source to destination using DFS
-void all_paths(Graph* graph, int source_id, int destination_id) {
+void
+all_paths(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
 
   // initalise arrays to keep track of the path so far, and which vertices have
@@ -191,7 +225,8 @@ void all_paths(Graph* graph, int source_id, int destination_id) {
 }
 
 // recursive call for all_paths, using DFS looks through queue
-void rec_all_paths(Graph* graph, int destination_id, int* visited, int* path,
+void
+rec_all_paths(Graph* graph, int destination_id, int* visited, int* path,
 int pathn, int root_id) {
   const int MAX_VERTICES = graph->maxn;
 
@@ -227,7 +262,8 @@ int pathn, int root_id) {
 }
 
 // prints the path from source to destinaton specified in the path array
-void print_path(Graph* graph, int* path, int pathn, int destination_id) {
+void
+print_path(Graph* graph, int* path, int pathn, int destination_id) {
   int i;
   for (i=0; i<pathn; i++) {
     printf("%s, ", graph->vertices[path[i]]->label);
@@ -236,7 +272,8 @@ void print_path(Graph* graph, int* path, int pathn, int destination_id) {
 }
 
 // prints the shortest path from source_id to destination_id from graph
-void shortest_path(Graph* graph, int source_id, int destination_id) {
+void
+shortest_path(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
 
   // initalise values to keep track of the path so far, which vertices has
