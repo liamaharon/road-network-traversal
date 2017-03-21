@@ -25,7 +25,7 @@ void rec_shortest_path(Graph* graph, int destination_id, int* visited,
 
 /* function definitions */
 
-// using DFS print every vertice in the graph
+// using DFS print every vertex in the graph
 void print_dfs(Graph* graph, int source_id) {
   const int MAX_VERTICES = graph->maxn;
 
@@ -35,18 +35,18 @@ void print_dfs(Graph* graph, int source_id) {
   // stack to store ids of vertices to be processed
   Stack* stack = new_stack(MAX_VERTICES);
 
-  // print origin vertice and process it in order to start a DFS from it
+  // print origin vertex and process it in order to start a DFS from it
   push_stack(stack, source_id);
   visited[source_id] = 1;
   printf("%s\n", graph->vertices[source_id]->label);
 
   // keep looking through stack until is empty
   while (!isempty_stack(stack)) {
-    // check every edge leading from vertice on top of the stack
+    // check every edge leading from vertex on top of the stack
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
       int edge_destination = edge->v;
-      // unvisited vertice, push to top of the stack, begin searching its edges
+      // unvisited vertex, push to top of the stack, begin searching its edges
       if (visited[edge_destination] == 0) {
         printf("%s\n", graph->vertices[edge_destination]->label);
         visited[edge_destination] = 1;
@@ -58,7 +58,7 @@ void print_dfs(Graph* graph, int source_id) {
         edge = edge->next_edge;
       }
     }
-    // vertice on top of stack has had all of its edges visited, pop off the
+    // vertex on top of stack has had all of its edges visited, pop off the
     // stack
     if (edge == NULL) pop_stack(stack);
   }
@@ -66,7 +66,7 @@ void print_dfs(Graph* graph, int source_id) {
   free(visited);
 }
 
-// using BFS print every vertice in the graph
+// using BFS print every vertex in the graph
 void print_bfs(Graph* graph, int source_id) {
   const int MAX_VERTICES = graph->maxn;
 
@@ -76,20 +76,20 @@ void print_bfs(Graph* graph, int source_id) {
   // queue to store ids of vertices to be processed
   Queue* queue = new_queue(MAX_VERTICES);
 
-  // print source vertice and process it ready to be used as root of BFS
+  // print source vertex and process it ready to be used as root of BFS
   enqueue_queue(queue, source_id);
   visited[source_id] = 1;
   printf("%s\n", graph->vertices[source_id]->label);
 
   // keep looking through queue until is empty
   while (!isempty_queue(queue)) {
-    // set first edge of vertice in front of queue
+    // set first edge of vertex in front of queue
     Edge* edge = graph->vertices[peek_queue(queue)]->first_edge;
     // enqueue and process destinations as soon as we find them, if they are
     // yet to be visited
     while (edge != NULL) {
       int edge_destination = edge->v;
-      // unvisited vertice, push to top of queue but keep checking other edges
+      // unvisited vertex, push to top of queue but keep checking other edges
       if (visited[edge_destination] == 0) {
         enqueue_queue(queue, edge_destination);
         visited[edge_destination] = 1;
@@ -97,7 +97,7 @@ void print_bfs(Graph* graph, int source_id) {
       }
       edge = edge->next_edge;
     }
-    // dequeue vertice when we have queued all unseen vertices from its edges
+    // dequeue vertex when we have queued all unseen vertices from its edges
     dequeue_queue(queue);
   }
   free_queue(queue);
@@ -116,18 +116,18 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
   // stack to store ids of vertices to be processed
   Stack* stack = new_stack(MAX_VERTICES);
 
-  // print origin vertice and process it in order to start a DFS from it
+  // print origin vertex and process it in order to start a DFS from it
   push_stack(stack, source_id);
   visited[source_id] = 1;
   printf("%s (%dkm)\n", graph->vertices[source_id]->label, dist);
 
   // keep looking through stack until is empty
   while (!isempty_stack(stack)) {
-    // check every edge leading from vertice on top of the stack
+    // check every edge leading from vertex on top of the stack
     Edge* edge = graph->vertices[peek_stack(stack)]->first_edge;
     while (edge != NULL) {
       int edge_destination = edge->v;
-      // unvisited vertice, push to top of the stack, begin searching its edges
+      // unvisited vertex, push to top of the stack, begin searching its edges
       if (visited[edge_destination] == 0) {
         visited[edge_destination] = 1;
         push_stack(stack, edge_destination);
@@ -141,12 +141,12 @@ void detailed_path(Graph* graph, int source_id, int destination_id) {
         }
         break;
       }
-      // if vertice leading from edge already seen check the next edge.
+      // if vertex leading from edge already seen check the next edge.
       else {
         edge = edge->next_edge;
       }
     }
-    // vertice on top of stack has had all of its edges visited, pop off the
+    // vertex on top of stack has had all of its edges visited, pop off the
     // stack
     if (edge == NULL) pop_stack(stack);
   }
@@ -179,7 +179,7 @@ void all_paths(Graph* graph, int source_id, int destination_id) {
     if (edge_destination == destination_id) {
       print_path(graph, path, pathn, destination_id);
       printf("\n");
-    // undiscovered non-destination vertice found, recurse on it
+    // undiscovered non-destination vertex found, recurse on it
     } else if (!visited[edge_destination]) {
       rec_all_paths(graph, destination_id, visited, path, pathn, edge_destination);
     }
@@ -203,7 +203,7 @@ int pathn, int root_id) {
   assert(new_path);
   memcpy(new_path, path, sizeof(int)*MAX_VERTICES);
 
-  // process values from root vertice and begin DFS on its edges
+  // process values from root vertex and begin DFS on its edges
   new_visited[root_id] = 1;
   new_path[pathn] = root_id;
   pathn++;
@@ -214,7 +214,7 @@ int pathn, int root_id) {
     if (edge_destination == destination_id) {
       print_path(graph, new_path, pathn, destination_id);
       printf("\n");
-    // undiscovered non-destination vertice found, recurse on it
+    // undiscovered non-destination vertex found, recurse on it
     } else if (!visited[edge_destination]) {
       rec_all_paths(graph, destination_id, new_visited, new_path, pathn, edge_destination);
     }
@@ -253,7 +253,7 @@ void shortest_path(Graph* graph, int source_id, int destination_id) {
   int pathn = 1;
   visited[source_id] = 1;
   Edge* edge = graph->vertices[source_id]->first_edge;
-  // using DFS and keeping track of paths and distances at every vertice
+  // using DFS and keeping track of paths and distances at every vertex
   // begin searching the array
   while (edge != NULL) {
     int cur_dist = edge->weight;
@@ -263,7 +263,7 @@ void shortest_path(Graph* graph, int source_id, int destination_id) {
       short_pathn = pathn;
       short_dist = cur_dist;
       memcpy(short_path, path, sizeof(int)*MAX_VERTICES);
-    // undiscovered non-destination vertice found, recurse on it
+    // undiscovered non-destination vertex found, recurse on it
     } else if (!visited[edge_destination]) {
       rec_shortest_path(graph, destination_id, visited, path, pathn,
       edge_destination, cur_dist, &short_dist, short_path, &short_pathn);
@@ -295,7 +295,7 @@ int* short_path, int* short_pathn) {
   assert(new_path);
   memcpy(new_path, path, sizeof(int)*MAX_VERTICES);
 
-  // process values from root vertice and begin DFS on its edges
+  // process values from root vertex and begin DFS on its edges
   new_visited[root_id] = 1;
   new_path[pathn] = root_id;
   pathn++;
@@ -308,7 +308,7 @@ int* short_path, int* short_pathn) {
       *short_pathn = pathn;
       *short_dist = new_dist;
       memcpy(short_path, new_path, sizeof(int)*MAX_VERTICES);
-    // undiscovered non-destination vertice found, recurse on it
+    // undiscovered non-destination vertex found, recurse on it
     } else if (!visited[edge_destination]) {
       rec_shortest_path(graph, destination_id, new_visited, new_path, pathn,
       edge_destination, new_dist, short_dist, short_path, short_pathn);
