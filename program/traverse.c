@@ -169,6 +169,7 @@ detailed_path(Graph* graph, int source_id, int destination_id) {
           free(visited);
           return;
         }
+        // move onto checking new node in stack instead of other edges
         break;
       }
       // if vertex leading from edge already seen check the next edge.
