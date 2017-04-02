@@ -136,8 +136,8 @@ void
 detailed_path(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
 
-  // handle when source_id == destination_id. only path is starting in source
-  // ending in source (traversed 0km)
+  // handle when source_id == destination_id. only simple path is starting in
+  // source and ending in source (traversed 0km)
   if (source_id == destination_id) {
     printf("%s (0km)\n", graph->vertices[source_id]->label);
     return;
@@ -200,6 +200,13 @@ detailed_path(Graph* graph, int source_id, int destination_id) {
 void
 all_paths(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
+
+  // handle when source_id == destination_id. only simple path is starting in
+  // source and ending in source
+  if (source_id == destination_id) {
+    printf("%s\n", graph->vertices[source_id]->label);
+    return;
+  }
 
   // initalise arrays to keep track of the path so far, and which vertices have
   // been visited
@@ -285,6 +292,13 @@ print_path(Graph* graph, int* path, int pathn, int destination_id) {
 void
 shortest_path(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
+
+  // handle when source_id == destination_id. only simple path (hence shortest
+  // path) is starting in source and ending in source (traversed 0km)
+  if (source_id == destination_id) {
+    printf("%s (0km)\n", graph->vertices[source_id]->label);
+    return;
+  }
 
   // initalise values to keep track of the path so far, which vertices has
   // been visited and infomation about the shortest path
