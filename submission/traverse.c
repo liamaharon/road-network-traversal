@@ -332,10 +332,17 @@ shortest_path(Graph* graph, int source_id, int destination_id) {
     // finised on this edge, check the next one
     edge = edge->next_edge;
   }
-  // finished searching entire graph. our shortest path values must now be
-  // accurate, go ahead print shortest path and clean up
-  print_path(graph, short_path, short_pathn, destination_id);
-  printf(" (%dkm)\n", short_dist);
+  // finished searching entire graph. if there is a shortest path at this
+  // point, it must be the shortest possible. go ahead print shortest path
+  // and clean up
+
+  // if any amount of paths were found, print. note at this point if source_id
+  // == destinaton_id path would have already been printed. this only catches
+  // when there is no path possible
+  if (short_pathn > 0) {
+    print_path(graph, short_path, short_pathn, destination_id);
+    printf(" (%dkm)\n", short_dist);
+  }
   free(visited);
   free(path);
   free(short_path);
