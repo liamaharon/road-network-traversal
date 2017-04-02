@@ -12,9 +12,10 @@ struct queue {
   int rear;
   int size;
   int maxn;
-  int empty;
   int* arr;
 };
+
+/* function prototypes */
 
 Queue* new_queue(int maxn);
 

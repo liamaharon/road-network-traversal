@@ -61,12 +61,14 @@ pop_stack(Stack* stack) {
   return n;
 }
 
+// check if stack is empty
 int
 isempty_stack(Stack* stack) {
   if (stack->front == -1) return 1;
   else return 0;
 }
 
+// free stack from memory
 void
 free_stack(Stack* stack) {
   free(stack->arr);
