@@ -67,7 +67,6 @@ isempty_stack(Stack* stack) {
   else return 0;
 }
 
-
 void
 free_stack(Stack* stack) {
   free(stack->arr);
