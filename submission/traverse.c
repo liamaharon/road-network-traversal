@@ -136,6 +136,12 @@ void
 detailed_path(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
 
+  // handle when source_id == destination_id
+  if (source_id == destination_id) {
+    printf("%s (0km)\n", graph->vertices[source_id]->label);
+    return;
+  }
+
   // array keeping track of which vertices have been visited, val to keep track
   // of dist traveled
   int* visited = calloc(sizeof(int), MAX_VERTICES);
