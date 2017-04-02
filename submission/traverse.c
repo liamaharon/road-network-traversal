@@ -156,7 +156,7 @@ detailed_path(Graph* graph, int source_id, int destination_id) {
     Edge* edge = graph->vertices[peek_stack(vertex_stack)]->first_edge;
     while (edge != NULL) {
       int edge_destination = edge->v;
-      // unvisited vertex, push to top of the vertex_stack, begin searching its edges
+      // unvisited vertex, push to top of the vertex_stack, search its edges
       if (visited[edge_destination] == 0) {
         visited[edge_destination] = 1;
         push_stack(vertex_stack, edge_destination);
@@ -216,7 +216,8 @@ all_paths(Graph* graph, int source_id, int destination_id) {
       printf("\n");
     // undiscovered non-destination vertex found, recurse on it
     } else if (!visited[edge_destination]) {
-      rec_all_paths(graph, destination_id, visited, path, pathn, edge_destination);
+      rec_all_paths(graph, destination_id, visited, path, pathn,
+        edge_destination);
     }
     // finised on this edge, check the next one
     edge = edge->next_edge;
@@ -252,7 +253,8 @@ int pathn, int root_id) {
       printf("\n");
     // undiscovered non-destination vertex found, recurse on it
     } else if (!visited[edge_destination]) {
-      rec_all_paths(graph, destination_id, new_visited, new_path, pathn, edge_destination);
+      rec_all_paths(graph, destination_id, new_visited, new_path, pathn,
+        edge_destination);
     }
     // check next edge
     edge = edge->next_edge;
