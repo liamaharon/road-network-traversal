@@ -193,6 +193,7 @@ detailed_path(Graph* graph, int source_id, int destination_id) {
   }
   // free memory in the case destinaton is inaccessible from source
   free_stack(vertex_stack);
+  free_stack(dist_stack);
   free(visited);
 }
 
@@ -334,7 +335,7 @@ shortest_path(Graph* graph, int source_id, int destination_id) {
   }
   // finished searching entire graph. if there is a shortest path at this
   // point, it must be the shortest possible. go ahead print shortest path
-  // and clean up
+  // and free memory
 
   // if any amount of paths were found, print. note at this point if source_id
   // == destinaton_id path would have already been printed. this only catches
