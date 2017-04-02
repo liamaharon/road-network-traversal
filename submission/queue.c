@@ -10,7 +10,7 @@
  #include <assert.h>
  #include "queue.h"
 
-//create new empty queue using a circular array
+// create new empty queue using a circular array
 Queue*
 new_queue(int maxn) {
   Queue* queue = malloc(sizeof(*queue));
@@ -23,7 +23,7 @@ new_queue(int maxn) {
   return queue;
 }
 
-//enqueue an int to the queue
+// enqueue an int to the queue
 void
 enqueue_queue(Queue* queue, int num) {
   // empty queue, initalise front and rear values
@@ -37,7 +37,7 @@ enqueue_queue(Queue* queue, int num) {
   queue->arr[queue->rear] = num;
 }
 
-//dequeue and return int at front of queue
+// dequeue and return int at front of queue
 int
 dequeue_queue(Queue* queue) {
   int front_val = queue->arr[queue->front];
@@ -52,21 +52,21 @@ dequeue_queue(Queue* queue) {
   return front_val;
 }
 
-//check the top of the queue
+// return int at the front of queue
 int
 peek_queue(Queue* queue) {
   assert (queue->front != -1);
   return queue->arr[queue->front];
 }
 
-//check if queue is empty
+// check if queue is empty
 int
 isempty_queue(Queue* queue) {
   if (queue->front == -1) return 1;
   else return 0;
 }
 
-//free queue memory
+// free queue memory
 void
 free_queue(Queue* queue) {
   free(queue->arr);

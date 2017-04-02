@@ -15,7 +15,7 @@
 // create a new, empty stack of ints
 Stack*
 new_stack(int maxn) {
-  //allocate memory to store the stack
+  // allocate memory to store the stack
   Stack* stack = malloc(sizeof(*stack));
   assert(stack);
   stack->front = -1;
