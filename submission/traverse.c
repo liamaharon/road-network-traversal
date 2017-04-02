@@ -136,7 +136,8 @@ void
 detailed_path(Graph* graph, int source_id, int destination_id) {
   const int MAX_VERTICES = graph->maxn;
 
-  // handle when source_id == destination_id
+  // handle when source_id == destination_id. only path is starting in source
+  // ending in source (traversed 0km)
   if (source_id == destination_id) {
     printf("%s (0km)\n", graph->vertices[source_id]->label);
     return;
